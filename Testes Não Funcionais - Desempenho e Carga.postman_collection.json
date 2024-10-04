@@ -1,0 +1,2314 @@
+{
+	"info": {
+		"_postman_id": "4ff41a6a-4045-4848-b9cf-f8cb789783f4",
+		"name": "Testes Não Funcionais - Desempenho e Carga",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "12389497"
+	},
+	"item": [
+		{
+			"name": "Fluxo de Compra Concluída",
+			"item": [
+				{
+					"name": "Cadastrar usuário admin com sucesso",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"/* \r",
+									"Cenario: Cadastrar novo usuário com sucesso\r",
+									"Dado que envie todas as informações válidas\r",
+									"Quando enviar a requisição POST para a rota de adição de usuário\r",
+									"Entao a API deve retornar um código de status 201 (Created) e confirmar que o novo usuário foi cadastrado com sucesso.\r",
+									"*/\r",
+									"\r",
+									"pm.test(\"Status code é 201\", function () {\r",
+									"    pm.response.to.have.status(201);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Validar mensagem de sucesso\", function () {\r",
+									"    pm.expect(pm.response.text()).to.include(\"Cadastro realizado com sucesso\");\r",
+									"});\r",
+									"\r",
+									"const resposta = pm.response.json();\r",
+									"pm.collectionVariables.set(\"_id\", resposta._id); \r",
+									"\r",
+									"pm.test(\"Validação da estrutura de resposta - Sucesso\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData).to.be.an(\"object\");\r",
+									"    pm.expect(jsonData).to.have.property(\"message\").that.is.a(\"string\");\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"nome\": \"Natalia Midori\",\r\n  \"email\": \"natalia@teste.com.br\",\r\n  \"password\": \"pucminas\",\r\n  \"administrador\": \"true\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/usuarios",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"usuarios"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Cadastrar usuário admin com sucesso",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									},
+									{
+										"key": "Accept",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"nome\": \"Natalia Midori\",\r\n  \"email\": \"natalia@teste.com.br\",\r\n  \"password\": \"pucminas\",\r\n  \"administrador\": \"true\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:3000/usuarios",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "3000",
+									"path": [
+										"usuarios"
+									]
+								}
+							},
+							"status": "Created",
+							"code": 201,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
+									"key": "x-dns-prefetch-control",
+									"value": "off"
+								},
+								{
+									"key": "x-frame-options",
+									"value": "SAMEORIGIN"
+								},
+								{
+									"key": "strict-transport-security",
+									"value": "max-age=15552000; includeSubDomains"
+								},
+								{
+									"key": "x-download-options",
+									"value": "noopen"
+								},
+								{
+									"key": "x-content-type-options",
+									"value": "nosniff"
+								},
+								{
+									"key": "x-xss-protection",
+									"value": "1; mode=block"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "82"
+								},
+								{
+									"key": "Date",
+									"value": "Sun, 29 Sep 2024 21:19:24 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"message\": \"Cadastro realizado com sucesso\",\n    \"_id\": \"hkAirnUEsFucmeY3\"\n}"
+						}
+					]
+				},
+				{
+					"name": "Realizar login admin Copy",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"const resposta = pm.response.json();\r",
+									"pm.globals.set (\"token\", resposta.authorization);\r",
+									"\r",
+									"pm.test(\"Status code é 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Validar mensagem de sucesso\", function () {\r",
+									"    pm.expect(pm.response.text()).to.include(\"Login realizado com sucesso\");\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Accept",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"email\": \"fulano@qa.com\",\n  \"password\": \"teste\"\n}",
+							"options": {
+								"raw": {
+									"headerFamily": "json",
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/login",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"login"
+							]
+						},
+						"description": "A duração do token retornado em authorization é de 600 segundos (10 minutos). Caso esteja expirado irá receber status code 401 (Unauthorized).\n"
+					},
+					"response": [
+						{
+							"name": "Realizar login admin",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "Accept",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"email\": \"natalia@teste.com.br\",\n  \"password\": \"pucminas\"\n}",
+									"options": {
+										"raw": {
+											"headerFamily": "json",
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:3000/login",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "3000",
+									"path": [
+										"login"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
+									"key": "x-dns-prefetch-control",
+									"value": "off"
+								},
+								{
+									"key": "x-frame-options",
+									"value": "SAMEORIGIN"
+								},
+								{
+									"key": "strict-transport-security",
+									"value": "max-age=15552000; includeSubDomains"
+								},
+								{
+									"key": "x-download-options",
+									"value": "noopen"
+								},
+								{
+									"key": "x-content-type-options",
+									"value": "nosniff"
+								},
+								{
+									"key": "x-xss-protection",
+									"value": "1; mode=block"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "279"
+								},
+								{
+									"key": "Date",
+									"value": "Sun, 29 Sep 2024 21:20:19 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"message\": \"Login realizado com sucesso\",\n    \"authorization\": \"Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6Im5hdGFsaWFAdGVzdGUuY29tLmJyIiwicGFzc3dvcmQiOiJwdWNtaW5hcyIsImlhdCI6MTcyNzY0NDgxOSwiZXhwIjoxNzI3NjQ1NDE5fQ.cL6wvtL20kO0Gcy6iEV1sv2nxMBb3t8HXdfNZz1uxUU\"\n}"
+						}
+					]
+				},
+				{
+					"name": "Listar todos os produtos cadastrados",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"/* \r",
+									"Cenario: Listar produtos cadastrados\r",
+									"Dado que envie todas as informações válidas\r",
+									"Quando enviar a requisição GET para a rota de buusca de produto\r",
+									"Entao a API deve retornar um código de status 200 e todos os dados de todos os produtos cadastrados.\r",
+									"*/\r",
+									"\r",
+									"pm.test(\"Status code é 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Lista de produtos\", function () {\r",
+									"    pm.expect(pm.response.text()).to.include(\"Samsung\");\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Validação da estrutura de resposta - Listagem de Produtos\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData).to.be.an(\"object\");\r",
+									"    pm.expect(jsonData).to.have.property(\"quantidade\").that.is.a(\"number\");\r",
+									"    pm.expect(jsonData).to.have.property(\"produtos\").that.is.an(\"array\");\r",
+									"    \r",
+									"    jsonData.usuario.forEach(function(usuario) {\r",
+									"        pm.expect(usuario).to.have.property(\"nome\").that.is.a(\"string\");\r",
+									"        pm.expect(usuario).to.have.property(\"preco\").that.is.a(\"number\");\r",
+									"        pm.expect(usuario).to.have.property(\"descricao\").that.is.a(\"string\");\r",
+									"        pm.expect(usuario).to.have.property(\"quantidade\").that.is.a(\"number\");\r",
+									"        pm.expect(usuario).to.have.property(\"_id\").that.is.a(\"string\");\r",
+									"        pm.expect(usuario).to.be.an(\"object\");\r",
+									"    });\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "Authorization",
+								"value": "{{token}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/produtos",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"produtos"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Listar todos os produtos cadastrados",
+							"originalRequest": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									},
+									{
+										"key": "Authorization",
+										"value": "",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "http://localhost:3000/produtos",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "3000",
+									"path": [
+										"produtos"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
+									"key": "x-dns-prefetch-control",
+									"value": "off"
+								},
+								{
+									"key": "x-frame-options",
+									"value": "SAMEORIGIN"
+								},
+								{
+									"key": "strict-transport-security",
+									"value": "max-age=15552000; includeSubDomains"
+								},
+								{
+									"key": "x-download-options",
+									"value": "noopen"
+								},
+								{
+									"key": "x-content-type-options",
+									"value": "nosniff"
+								},
+								{
+									"key": "x-xss-protection",
+									"value": "1; mode=block"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "1754"
+								},
+								{
+									"key": "Date",
+									"value": "Sun, 29 Sep 2024 21:12:29 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"quantidade\": 9,\n    \"produtos\": [\n        {\n            \"nome\": \"Teste\",\n            \"preco\": 4700,\n            \"descricao\": \"Celular\",\n            \"quantidade\": 185,\n            \"_id\": \"ADMOI5ugq5N6rfsH\"\n        },\n        {\n            \"nome\": \"Logitech\",\n            \"preco\": 470,\n            \"descricao\": \"Mouse\",\n            \"quantidade\": 380,\n            \"_id\": \"C3opGG6T51R52zDJ\"\n        },\n        {\n            \"nome\": \"Logitech M\",\n            \"preco\": 470,\n            \"descricao\": \"Mouse\",\n            \"quantidade\": 380,\n            \"_id\": \"GvlYT2NH3l77CSzw\"\n        },\n        {\n            \"nome\": \"Samsung 60 polegadas\",\n            \"preco\": 5240,\n            \"descricao\": \"TV\",\n            \"quantidade\": 49977,\n            \"_id\": \"K6leHdftCeOJj8BJ\"\n        },\n        {\n            \"nome\": \"Produto Teste Integração\",\n            \"preco\": 800,\n            \"descricao\": \"Integração\",\n            \"quantidade\": 20,\n            \"_id\": \"Krh5v1fHqU2ITQL6\"\n        },\n        {\n            \"nome\": \"Mouse Logitech\",\n            \"preco\": 123,\n            \"descricao\": \"mouse Logi USB\",\n            \"quantidade\": 30,\n            \"_id\": \"L0ioR8bBLgy1aH2X\"\n        },\n        {\n            \"nome\": \"Logitech MX\",\n            \"preco\": 470,\n            \"descricao\": \"Mouse\",\n            \"quantidade\": 380,\n            \"_id\": \"eM54Qntpeueu8eht\"\n        },\n        {\n            \"nome\": \"Produto ainda sem ID\",\n            \"preco\": 300,\n            \"descricao\": \"Teste\",\n            \"quantidade\": 9,\n            \"_id\": \"lb0C8OM4qpmu7Zai\"\n        },\n        {\n            \"nome\": \"Iphone 14\",\n            \"preco\": 4700,\n            \"descricao\": \"Celular\",\n            \"quantidade\": 179,\n            \"_id\": \"wIdw5eIn75bmCMdr\"\n        }\n    ]\n}"
+						}
+					]
+				},
+				{
+					"name": "Buscar produtos por ID (sucesso)",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"/* \r",
+									"Cenario: Buscar produto pelo ID\r",
+									"Dado que o ID existe no cadastro\r",
+									"Quando enviar a requisição GET para a rota busca pelo id do produtos\r",
+									"Entao a API deve retornar um código de status 200 (OK)\r",
+									"E as informações detalhadas do produtos devem ser retornadas corretamente\r",
+									"*/\r",
+									"\r",
+									"pm.test(\"Status code é 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"}); \r",
+									"\r",
+									"pm.test(\"Validação da estrutura de resposta - Resultado da busca de Produto por ID\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData).to.be.an(\"object\");\r",
+									"    pm.expect(jsonData).to.have.property(\"nome\").that.is.a(\"string\");\r",
+									"    pm.expect(jsonData).to.have.property(\"preco\").that.is.a(\"number\");\r",
+									"    pm.expect(jsonData).to.have.property(\"descricao\").that.is.a(\"string\");\r",
+									"    pm.expect(jsonData).to.have.property(\"quantidade\").that.is.a(\"number\");\r",
+									"    pm.expect(jsonData).to.have.property(\"_id\").that.is.a(\"string\");\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "Authorization",
+								"value": "{{token}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/produtos/:_id",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"produtos",
+								":_id"
+							],
+							"variable": [
+								{
+									"key": "_id",
+									"value": "Krh5v1fHqU2ITQL6",
+									"description": "(Required) ID do produto"
+								}
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Buscar produtos por ID (sucesso)",
+							"originalRequest": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									},
+									{
+										"key": "Authorization",
+										"value": "",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "http://localhost:3000/produtos/:_id",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "3000",
+									"path": [
+										"produtos",
+										":_id"
+									],
+									"variable": [
+										{
+											"key": "_id",
+											"value": "Krh5v1fHqU2ITQL6",
+											"description": "(Required) ID do produto"
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
+									"key": "x-dns-prefetch-control",
+									"value": "off"
+								},
+								{
+									"key": "x-frame-options",
+									"value": "SAMEORIGIN"
+								},
+								{
+									"key": "strict-transport-security",
+									"value": "max-age=15552000; includeSubDomains"
+								},
+								{
+									"key": "x-download-options",
+									"value": "noopen"
+								},
+								{
+									"key": "x-content-type-options",
+									"value": "nosniff"
+								},
+								{
+									"key": "x-xss-protection",
+									"value": "1; mode=block"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "148"
+								},
+								{
+									"key": "Date",
+									"value": "Sun, 29 Sep 2024 21:11:14 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"nome\": \"Produto Teste Integração\",\n    \"preco\": 800,\n    \"descricao\": \"Integração\",\n    \"quantidade\": 20,\n    \"_id\": \"Krh5v1fHqU2ITQL6\"\n}"
+						}
+					]
+				},
+				{
+					"name": "Cadastrar carrinho com sucesso",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"/* \r",
+									"Cenario: Cadastrar novo carrinho com sucesso\r",
+									"Dado que envie todas as informações válidas\r",
+									"Quando enviar a requisição POST para a rota de adição de carrinho\r",
+									"Entao a API deve retornar um código de status 201 (Created) e confirmar que o novo carrinho foi cadastrado com sucesso.\r",
+									"*/\r",
+									"\r",
+									"pm.test(\"Status code é 201\", function () {\r",
+									"    pm.response.to.have.status(201);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Validar mensagem de sucesso\", function () {\r",
+									"    pm.expect(pm.response.text()).to.include(\"Cadastro realizado com sucesso\");\r",
+									"});\r",
+									"\r",
+									"const resposta = pm.response.json();\r",
+									"\r",
+									"pm.collectionVariables.set(\"_id\", resposta._id);"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "Authorization",
+								"value": "{{token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"produtos\": [\r\n    {\r\n      \"idProduto\": \"BeeJh5lz3k6kSIzA\",\r\n      \"quantidade\": 1\r\n    },\r\n    {\r\n      \"idProduto\": \"wIdw5eIn75bmCMdr\",\r\n      \"quantidade\": 3\r\n    }\r\n  ]\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/carrinhos",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"carrinhos"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Cadastrar carrinho com sucesso",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									},
+									{
+										"key": "Accept",
+										"value": "application/json",
+										"type": "text"
+									},
+									{
+										"key": "Authorization",
+										"value": "",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"produtos\": [\r\n    {\r\n      \"idProduto\": \"BeeJh5lz3k6kSIzA\",\r\n      \"quantidade\": 1\r\n    },\r\n    {\r\n      \"idProduto\": \"wIdw5eIn75bmCMdr\",\r\n      \"quantidade\": 3\r\n    }\r\n  ]\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:3000/carrinhos",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "3000",
+									"path": [
+										"carrinhos"
+									]
+								}
+							},
+							"status": "Created",
+							"code": 201,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
+									"key": "x-dns-prefetch-control",
+									"value": "off"
+								},
+								{
+									"key": "x-frame-options",
+									"value": "SAMEORIGIN"
+								},
+								{
+									"key": "strict-transport-security",
+									"value": "max-age=15552000; includeSubDomains"
+								},
+								{
+									"key": "x-download-options",
+									"value": "noopen"
+								},
+								{
+									"key": "x-content-type-options",
+									"value": "nosniff"
+								},
+								{
+									"key": "x-xss-protection",
+									"value": "1; mode=block"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "82"
+								},
+								{
+									"key": "Date",
+									"value": "Thu, 26 Sep 2024 23:40:19 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"message\": \"Cadastro realizado com sucesso\",\n    \"_id\": \"IHQK09w1N5GHbLxR\"\n}"
+						}
+					]
+				},
+				{
+					"name": "Listar carrinhos",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"/* \r",
+									"Cenario: Listar os carrinhos\r",
+									"Dado que envie todas as informações válidas\r",
+									"Quando enviar a requisição GET para a rota de busca de carrinho\r",
+									"Entao a API deve retornar um código de status 200 e todos os dados de todos os carrinhos cadastrados.\r",
+									"*/\r",
+									"\r",
+									"pm.test(\"Status code é 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Lista de produtos\", function () {\r",
+									"    pm.expect(pm.response.text()).to.include(\"Iphone 14\");\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "apikey",
+							"apikey": [
+								{
+									"key": "value",
+									"value": "{{token}}",
+									"type": "string"
+								},
+								{
+									"key": "key",
+									"value": "Authorization",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "Authorization",
+								"value": "<API Key>",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/carrinhos",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"carrinhos"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Listar carrinhos",
+							"originalRequest": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									},
+									{
+										"key": "Authorization",
+										"value": "<API Key>",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "http://localhost:3000/carrinhos",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "3000",
+									"path": [
+										"carrinhos"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
+									"key": "x-dns-prefetch-control",
+									"value": "off"
+								},
+								{
+									"key": "x-frame-options",
+									"value": "SAMEORIGIN"
+								},
+								{
+									"key": "strict-transport-security",
+									"value": "max-age=15552000; includeSubDomains"
+								},
+								{
+									"key": "x-download-options",
+									"value": "noopen"
+								},
+								{
+									"key": "x-content-type-options",
+									"value": "nosniff"
+								},
+								{
+									"key": "x-xss-protection",
+									"value": "1; mode=block"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "1143"
+								},
+								{
+									"key": "Date",
+									"value": "Thu, 26 Sep 2024 23:45:52 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"quantidade\": 2,\n    \"carrinhos\": [\n        {\n            \"produtos\": [\n                {\n                    \"idProduto\": \"BeeJh5lz3k6kSIzA\",\n                    \"quantidade\": 1,\n                    \"precoUnitario\": 470\n                },\n                {\n                    \"idProduto\": \"wIdw5eIn75bmCMdr\",\n                    \"quantidade\": 3,\n                    \"precoUnitario\": 4700\n                }\n            ],\n            \"precoTotal\": 14570,\n            \"quantidadeTotal\": 4,\n            \"idUsuario\": \"rjJSfHomZCJHxThP\",\n            \"_id\": \"IHQK09w1N5GHbLxR\"\n        },\n        {\n            \"produtos\": [\n                {\n                    \"idProduto\": \"BeeJh5lz3k6kSIzA\",\n                    \"quantidade\": 2,\n                    \"precoUnitario\": 470\n                },\n                {\n                    \"idProduto\": \"K6leHdftCeOJj8BJ\",\n                    \"quantidade\": 1,\n                    \"precoUnitario\": 5240\n                }\n            ],\n            \"precoTotal\": 6180,\n            \"quantidadeTotal\": 3,\n            \"idUsuario\": \"0uxuPY0cbmQhpEz1\",\n            \"_id\": \"qbMqntef4iTOwWfg\"\n        }\n    ]\n}"
+						}
+					]
+				},
+				{
+					"name": "Buscar carrinho por ID (encontrado)",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"/* \r",
+									"Cenario: Buscar carrinho pelo ID\r",
+									"Dado que o ID existe\r",
+									"Quando enviar a requisição GET para a rota busca pelo id do carrinho\r",
+									"Entao a API deve retornar um código de status 200 (Bad Request) e o retorno com todos os dados do carrinho\r",
+									"*/\r",
+									"\r",
+									"pm.test(\"Status code é 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "Authorization",
+								"value": "{{token}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/carrinhos/:_id",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"carrinhos",
+								":_id"
+							],
+							"variable": [
+								{
+									"key": "_id",
+									"value": "IHQK09w1N5GHbLxR"
+								}
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Buscar carrinho por ID (encontrado)",
+							"originalRequest": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									},
+									{
+										"key": "Authorization",
+										"value": "",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "http://localhost:3000/carrinhos/:_id",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "3000",
+									"path": [
+										"carrinhos",
+										":_id"
+									],
+									"variable": [
+										{
+											"key": "_id",
+											"value": "IHQK09w1N5GHbLxR"
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
+									"key": "x-dns-prefetch-control",
+									"value": "off"
+								},
+								{
+									"key": "x-frame-options",
+									"value": "SAMEORIGIN"
+								},
+								{
+									"key": "strict-transport-security",
+									"value": "max-age=15552000; includeSubDomains"
+								},
+								{
+									"key": "x-download-options",
+									"value": "noopen"
+								},
+								{
+									"key": "x-content-type-options",
+									"value": "nosniff"
+								},
+								{
+									"key": "x-xss-protection",
+									"value": "1; mode=block"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "402"
+								},
+								{
+									"key": "Date",
+									"value": "Thu, 26 Sep 2024 23:53:06 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"produtos\": [\n        {\n            \"idProduto\": \"BeeJh5lz3k6kSIzA\",\n            \"quantidade\": 1,\n            \"precoUnitario\": 470\n        },\n        {\n            \"idProduto\": \"wIdw5eIn75bmCMdr\",\n            \"quantidade\": 3,\n            \"precoUnitario\": 4700\n        }\n    ],\n    \"precoTotal\": 14570,\n    \"quantidadeTotal\": 4,\n    \"idUsuario\": \"rjJSfHomZCJHxThP\",\n    \"_id\": \"IHQK09w1N5GHbLxR\"\n}"
+						}
+					]
+				},
+				{
+					"name": "Concluir compra com sucesso",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"/* \r",
+									"Cenario: Cadastrar carrinho sem quantidade suficiente do produto\r",
+									"Dado que envie todas as informações válidas, exceto o campo quantidade\r",
+									"Quando enviar a requisição POST para a rota de adição de carrinho\r",
+									"Entao a API deve retornar um código de status 200 (OK) e uma mensagem indicando que algo deu errado\r",
+									"*/\r",
+									"\r",
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Validar mensagem de erro\", function () {\r",
+									"    pm.expect(pm.response.text()).to.include(\"Registro excluído com sucesso\");\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "Authorization",
+								"value": "{{token}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/carrinhos/concluir-compra",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"carrinhos",
+								"concluir-compra"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Concluir compra com sucesso",
+							"originalRequest": {
+								"method": "DELETE",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									},
+									{
+										"key": "Accept",
+										"value": "application/json",
+										"type": "text"
+									},
+									{
+										"key": "Authorization",
+										"value": "",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "http://localhost:3000/carrinhos/concluir-compra",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "3000",
+									"path": [
+										"carrinhos",
+										"concluir-compra"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
+									"key": "x-dns-prefetch-control",
+									"value": "off"
+								},
+								{
+									"key": "x-frame-options",
+									"value": "SAMEORIGIN"
+								},
+								{
+									"key": "strict-transport-security",
+									"value": "max-age=15552000; includeSubDomains"
+								},
+								{
+									"key": "x-download-options",
+									"value": "noopen"
+								},
+								{
+									"key": "x-content-type-options",
+									"value": "nosniff"
+								},
+								{
+									"key": "x-xss-protection",
+									"value": "1; mode=block"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "51"
+								},
+								{
+									"key": "Date",
+									"value": "Fri, 27 Sep 2024 00:01:55 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"message\": \"Registro excluído com sucesso\"\n}"
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "Fluxo de listagem de usuários",
+			"item": [
+				{
+					"name": "Cadastrar usuário admin com sucesso Copy",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"/* \r",
+									"Cenario: Cadastrar novo usuário com sucesso\r",
+									"Dado que envie todas as informações válidas\r",
+									"Quando enviar a requisição POST para a rota de adição de usuário\r",
+									"Entao a API deve retornar um código de status 201 (Created) e confirmar que o novo usuário foi cadastrado com sucesso.\r",
+									"*/\r",
+									"\r",
+									"pm.test(\"Status code é 201\", function () {\r",
+									"    pm.response.to.have.status(201);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Validar mensagem de sucesso\", function () {\r",
+									"    pm.expect(pm.response.text()).to.include(\"Cadastro realizado com sucesso\");\r",
+									"});\r",
+									"\r",
+									"const resposta = pm.response.json();\r",
+									"pm.collectionVariables.set(\"_id\", resposta._id); \r",
+									"\r",
+									"pm.test(\"Validação da estrutura de resposta - Sucesso\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData).to.be.an(\"object\");\r",
+									"    pm.expect(jsonData).to.have.property(\"message\").that.is.a(\"string\");\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"nome\": \"Natalia Midori\",\r\n  \"email\": \"natalia@teste.com.br\",\r\n  \"password\": \"pucminas\",\r\n  \"administrador\": \"true\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/usuarios",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"usuarios"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Cadastrar usuário admin com sucesso",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									},
+									{
+										"key": "Accept",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"nome\": \"Natalia Midori\",\r\n  \"email\": \"natalia@teste.com.br\",\r\n  \"password\": \"pucminas\",\r\n  \"administrador\": \"true\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:3000/usuarios",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "3000",
+									"path": [
+										"usuarios"
+									]
+								}
+							},
+							"status": "Created",
+							"code": 201,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
+									"key": "x-dns-prefetch-control",
+									"value": "off"
+								},
+								{
+									"key": "x-frame-options",
+									"value": "SAMEORIGIN"
+								},
+								{
+									"key": "strict-transport-security",
+									"value": "max-age=15552000; includeSubDomains"
+								},
+								{
+									"key": "x-download-options",
+									"value": "noopen"
+								},
+								{
+									"key": "x-content-type-options",
+									"value": "nosniff"
+								},
+								{
+									"key": "x-xss-protection",
+									"value": "1; mode=block"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "82"
+								},
+								{
+									"key": "Date",
+									"value": "Sun, 29 Sep 2024 21:19:24 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"message\": \"Cadastro realizado com sucesso\",\n    \"_id\": \"hkAirnUEsFucmeY3\"\n}"
+						}
+					]
+				},
+				{
+					"name": "Realizar login admin",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"const resposta = pm.response.json();\r",
+									"pm.globals.set (\"token\", resposta.authorization);\r",
+									"\r",
+									"pm.test(\"Status code é 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Validar mensagem de sucesso\", function () {\r",
+									"    pm.expect(pm.response.text()).to.include(\"Login realizado com sucesso\");\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Accept",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"email\": \"fulano@qa.com\",\n  \"password\": \"teste\"\n}",
+							"options": {
+								"raw": {
+									"headerFamily": "json",
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/login",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"login"
+							]
+						},
+						"description": "A duração do token retornado em authorization é de 600 segundos (10 minutos). Caso esteja expirado irá receber status code 401 (Unauthorized).\n"
+					},
+					"response": [
+						{
+							"name": "Realizar login admin",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "Accept",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"email\": \"natalia@teste.com.br\",\n  \"password\": \"pucminas\"\n}",
+									"options": {
+										"raw": {
+											"headerFamily": "json",
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:3000/login",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "3000",
+									"path": [
+										"login"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
+									"key": "x-dns-prefetch-control",
+									"value": "off"
+								},
+								{
+									"key": "x-frame-options",
+									"value": "SAMEORIGIN"
+								},
+								{
+									"key": "strict-transport-security",
+									"value": "max-age=15552000; includeSubDomains"
+								},
+								{
+									"key": "x-download-options",
+									"value": "noopen"
+								},
+								{
+									"key": "x-content-type-options",
+									"value": "nosniff"
+								},
+								{
+									"key": "x-xss-protection",
+									"value": "1; mode=block"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "279"
+								},
+								{
+									"key": "Date",
+									"value": "Sun, 29 Sep 2024 21:20:19 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"message\": \"Login realizado com sucesso\",\n    \"authorization\": \"Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6Im5hdGFsaWFAdGVzdGUuY29tLmJyIiwicGFzc3dvcmQiOiJwdWNtaW5hcyIsImlhdCI6MTcyNzY0NDgxOSwiZXhwIjoxNzI3NjQ1NDE5fQ.cL6wvtL20kO0Gcy6iEV1sv2nxMBb3t8HXdfNZz1uxUU\"\n}"
+						}
+					]
+				},
+				{
+					"name": "Listar todos os usuários cadastrados",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code é 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Validação da estrutura de resposta - Listagem de Usuários\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData).to.be.an(\"object\");\r",
+									"    pm.expect(jsonData).to.have.property(\"quantidade\").that.is.a(\"number\");\r",
+									"    pm.expect(jsonData).to.have.property(\"usuarios\").that.is.an(\"array\");\r",
+									"    \r",
+									"    jsonData.usuario.forEach(function(usuario) {\r",
+									"        pm.expect(usuario).to.have.property(\"nome\").that.is.a(\"string\");\r",
+									"        pm.expect(usuario).to.have.property(\"email\").that.is.a(\"string\");\r",
+									"        pm.expect(usuario).to.have.property(\"password\").that.is.a(\"string\");\r",
+									"        pm.expect(usuario).to.have.property(\"administrador\").that.is.a(\"string\");\r",
+									"        pm.expect(usuario).to.have.property(\"_id\").that.is.a(\"string\");\r",
+									"        pm.expect(usuario).to.be.an(\"object\");\r",
+									"    });\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/usuarios",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"usuarios"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Listar usuários cadastrados",
+							"originalRequest": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/usuarios",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"usuarios"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
+									"key": "x-dns-prefetch-control",
+									"value": "off"
+								},
+								{
+									"key": "x-frame-options",
+									"value": "SAMEORIGIN"
+								},
+								{
+									"key": "strict-transport-security",
+									"value": "max-age=15552000; includeSubDomains"
+								},
+								{
+									"key": "x-download-options",
+									"value": "noopen"
+								},
+								{
+									"key": "x-content-type-options",
+									"value": "nosniff"
+								},
+								{
+									"key": "x-xss-protection",
+									"value": "1; mode=block"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "1803"
+								},
+								{
+									"key": "Date",
+									"value": "Thu, 26 Sep 2024 22:59:45 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"quantidade\": 8,\n    \"usuarios\": [\n        {\n            \"nome\": \"Fulano da Silva\",\n            \"email\": \"fulano@qa.com\",\n            \"password\": \"teste\",\n            \"administrador\": \"true\",\n            \"_id\": \"0uxuPY0cbmQhpEz1\"\n        },\n        {\n            \"nome\": \"Usuário Nao Admin\",\n            \"email\": \"usernon@pucminas.br\",\n            \"password\": \"pucminas\",\n            \"administrador\": \"false\",\n            \"_id\": \"9Vz4sZOYEpbRsM6C\"\n        },\n        {\n            \"nome\": \"Novo Usuário\",\n            \"email\": \"novoemail@pucminas.br\",\n            \"password\": \"pucminas\",\n            \"administrador\": \"true\",\n            \"_id\": \"anm8vP8QO9luRJlS\"\n        },\n        {\n            \"nome\": \"Usuário Nao Admin 4\",\n            \"email\": \"usernot@pucminas.br\",\n            \"password\": \"pucminas\",\n            \"administrador\": \"false\",\n            \"_id\": \"pdfuSrORxJ6f3MQF\"\n        },\n        {\n            \"nome\": \"Usuário Nao Admin\",\n            \"email\": \"usernotadmin@pucminas.br\",\n            \"password\": \"pucminas\",\n            \"administrador\": \"false\",\n            \"_id\": \"rbn9Kqk1paXw00im\"\n        },\n        {\n            \"nome\": \"Kleber Jacques F. Souza\",\n            \"email\": \"klebersouza@pucminas.br\",\n            \"password\": \"pucminas\",\n            \"administrador\": \"true\",\n            \"_id\": \"rjJSfHomZCJHxThP\"\n        },\n        {\n            \"nome\": \"Usuário Nao Admin 5\",\n            \"email\": \"testenonadmin@pucminas.br\",\n            \"password\": \"pucminas\",\n            \"administrador\": \"false\",\n            \"_id\": \"vhIwXUyrZP7w1WmM\"\n        },\n        {\n            \"nome\": \"Usuário Nao Admin\",\n            \"email\": \"usern@pucminas.br\",\n            \"password\": \"pucminas\",\n            \"administrador\": \"false\",\n            \"_id\": \"wRCnaqdAlZapYhyH\"\n        }\n    ]\n}"
+						}
+					]
+				},
+				{
+					"name": "Listar usuários cadastrados com filtro",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code é 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Validação da estrutura de resposta - Listagem de Usuários\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData).to.be.an(\"object\");\r",
+									"    pm.expect(jsonData).to.have.property(\"quantidade\").that.is.a(\"number\");\r",
+									"    pm.expect(jsonData).to.have.property(\"usuarios\").that.is.an(\"array\");\r",
+									"    \r",
+									"    jsonData.usuario.forEach(function(usuario) {\r",
+									"        pm.expect(usuario).to.have.property(\"nome\").that.is.a(\"string\");\r",
+									"        pm.expect(usuario).to.have.property(\"email\").that.is.a(\"string\");\r",
+									"        pm.expect(usuario).to.have.property(\"password\").that.is.a(\"string\");\r",
+									"        pm.expect(usuario).to.have.property(\"administrador\").that.is.a(\"string\");\r",
+									"        pm.expect(usuario).to.have.property(\"_id\").that.is.a(\"string\");\r",
+									"        pm.expect(usuario).to.be.an(\"object\");\r",
+									"    });\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/usuarios?_id={{_id}}&nome=Kleber Souza&email=klebersouza@pucminas.br&password=pucminas&administrador=true",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"usuarios"
+							],
+							"query": [
+								{
+									"key": "_id",
+									"value": "{{_id}}"
+								},
+								{
+									"key": "nome",
+									"value": "Kleber Souza"
+								},
+								{
+									"key": "email",
+									"value": "klebersouza@pucminas.br"
+								},
+								{
+									"key": "password",
+									"value": "pucminas"
+								},
+								{
+									"key": "administrador",
+									"value": "true"
+								}
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Lista de usuários",
+							"originalRequest": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json"
+									}
+								],
+								"url": {
+									"raw": "/localhost:3000/usuarios?_id=<string>&nome=<string>&email=<string>&password=<string>&administrador=false",
+									"path": [
+										"localhost:3000",
+										"usuarios"
+									],
+									"query": [
+										{
+											"key": "_id",
+											"value": "<string>"
+										},
+										{
+											"key": "nome",
+											"value": "<string>"
+										},
+										{
+											"key": "email",
+											"value": "<string>"
+										},
+										{
+											"key": "password",
+											"value": "<string>"
+										},
+										{
+											"key": "administrador",
+											"value": "false"
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								}
+							],
+							"cookie": [],
+							"body": "{\n  \"quantidade\": \"<number>\",\n  \"usuarios\": [\n    {\n      \"nome\": \"<string>\",\n      \"email\": \"<string>\",\n      \"password\": \"<string>\",\n      \"administrador\": \"true\",\n      \"_id\": \"<string>\"\n    },\n    {\n      \"nome\": \"<string>\",\n      \"email\": \"<string>\",\n      \"password\": \"<string>\",\n      \"administrador\": \"true\",\n      \"_id\": \"<string>\"\n    }\n  ]\n}"
+						}
+					]
+				},
+				{
+					"name": "Buscar usuário por ID (sucesso)",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"/* \r",
+									"Cenario: Buscar usuário pelo ID\r",
+									"Dado que o ID existe no cadastro\r",
+									"Quando enviar a requisição GET para a rota busca pelo id do usuário\r",
+									"Entao a API deve retornar um código de status 200 (OK)\r",
+									"E as informações detalhadas do usuário devem ser retornadas corretamente\r",
+									"*/\r",
+									"\r",
+									"pm.test(\"Status code é 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Buscar usuário por ID (sucesso)\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData).to.be.an(\"object\");\r",
+									"    pm.expect(jsonData).to.have.property(\"nome\").that.is.a(\"string\");\r",
+									"    pm.expect(jsonData).to.have.property(\"email\").that.is.a(\"string\");\r",
+									"    pm.expect(jsonData).to.have.property(\"password\").that.is.a(\"string\");\r",
+									"    pm.expect(jsonData).to.have.property(\"administrador\").that.is.a(\"string\");\r",
+									"    pm.expect(jsonData).to.have.property(\"_id\").that.is.a(\"string\");\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/usuarios/:_id",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"usuarios",
+								":_id"
+							],
+							"variable": [
+								{
+									"key": "_id",
+									"value": "{{_id}}",
+									"description": "(Required) ID do usuário"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Buscar usuário por ID (falha)",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"/* \r",
+									"Cenario: Buscar usuário pelo ID\r",
+									"Dado que o ID não existe no cadastro\r",
+									"Quando enviar a requisição GET para a rota busca pelo id do usuário\r",
+									"Entao a API deve retornar um código de status 400 (Bad Request) e uma mensagem indicando que o usuário não foi encontrado\r",
+									"*/\r",
+									"\r",
+									"pm.test(\"Status code é 400\", function () {\r",
+									"    pm.response.to.have.status(400);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Validar mensagem de erro\", function () {\r",
+									"    pm.expect(pm.response.text()).to.include(\"Usuário não encontrado\");\r",
+									"}); \r",
+									"\r",
+									"pm.test(\"Validação da estrutura de resposta - Erro\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData).to.be.an(\"object\");\r",
+									"    pm.expect(jsonData).to.have.property(\"message\").that.is.a(\"string\");\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/usuarios/:_id",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"usuarios",
+								":_id"
+							],
+							"variable": [
+								{
+									"key": "_id",
+									"value": "abcd",
+									"description": "(Required) ID do usuário"
+								}
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Buscar usuário por ID (falha)",
+							"originalRequest": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/usuarios/:_id",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"usuarios",
+										":_id"
+									],
+									"variable": [
+										{
+											"key": "_id",
+											"value": "abcd",
+											"description": "(Required) ID do usuário"
+										}
+									]
+								}
+							},
+							"status": "Bad Request",
+							"code": 400,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
+									"key": "x-dns-prefetch-control",
+									"value": "off"
+								},
+								{
+									"key": "x-frame-options",
+									"value": "SAMEORIGIN"
+								},
+								{
+									"key": "strict-transport-security",
+									"value": "max-age=15552000; includeSubDomains"
+								},
+								{
+									"key": "x-download-options",
+									"value": "noopen"
+								},
+								{
+									"key": "x-content-type-options",
+									"value": "nosniff"
+								},
+								{
+									"key": "x-xss-protection",
+									"value": "1; mode=block"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "45"
+								},
+								{
+									"key": "Date",
+									"value": "Wed, 25 Sep 2024 02:50:15 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"message\": \"Usuário não encontrado\"\n}"
+						}
+					]
+				}
+			]
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					"pm.test(\"Tempo de resposta é aceitável\", function () {\r",
+					"    pm.expect(pm.response.responseTime).to.be.below(200);\r",
+					"});"
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "baseUrl",
+			"value": "http://localhost:3000",
+			"type": "string"
+		},
+		{
+			"key": "idUsuario",
+			"value": "iIjVbpuNceWl2vn4",
+			"type": "string"
+		},
+		{
+			"key": "token",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"key": "idProduto",
+			"value": "K6leHdftCeOJj8BJ",
+			"type": "string"
+		},
+		{
+			"key": "idCarrinho",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"key": "qtdProduto",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"key": "idUsuario_0",
+			"value": ""
+		},
+		{
+			"key": "emailUsuarioAtual",
+			"value": ""
+		},
+		{
+			"key": "email",
+			"value": ""
+		},
+		{
+			"key": "token_0",
+			"value": ""
+		},
+		{
+			"key": "idUsuario_1",
+			"value": ""
+		},
+		{
+			"key": "token_1",
+			"value": ""
+		},
+		{
+			"key": "idUsuario_2",
+			"value": ""
+		},
+		{
+			"key": "token_2",
+			"value": ""
+		},
+		{
+			"key": "idUsuario_3",
+			"value": ""
+		},
+		{
+			"key": "token_3",
+			"value": ""
+		},
+		{
+			"key": "idUsuario_4",
+			"value": ""
+		},
+		{
+			"key": "token_4",
+			"value": ""
+		},
+		{
+			"key": "idUsuario_5",
+			"value": ""
+		},
+		{
+			"key": "token_5",
+			"value": ""
+		},
+		{
+			"key": "idUsuario_6",
+			"value": ""
+		},
+		{
+			"key": "token_6",
+			"value": ""
+		},
+		{
+			"key": "idUsuario_7",
+			"value": ""
+		},
+		{
+			"key": "token_7",
+			"value": ""
+		},
+		{
+			"key": "idUsuario_8",
+			"value": ""
+		},
+		{
+			"key": "token_8",
+			"value": ""
+		},
+		{
+			"key": "idUsuario_9",
+			"value": ""
+		},
+		{
+			"key": "token_9",
+			"value": ""
+		},
+		{
+			"key": "idUsuario_10",
+			"value": ""
+		},
+		{
+			"key": "token_10",
+			"value": ""
+		},
+		{
+			"key": "idUsuario_11",
+			"value": ""
+		},
+		{
+			"key": "token_11",
+			"value": ""
+		},
+		{
+			"key": "idUsuario_12",
+			"value": ""
+		},
+		{
+			"key": "token_12",
+			"value": ""
+		},
+		{
+			"key": "idUsuario_13",
+			"value": ""
+		},
+		{
+			"key": "token_13",
+			"value": ""
+		},
+		{
+			"key": "idUsuario_14",
+			"value": ""
+		},
+		{
+			"key": "token_14",
+			"value": ""
+		},
+		{
+			"key": "idUsuario_15",
+			"value": ""
+		},
+		{
+			"key": "token_15",
+			"value": ""
+		},
+		{
+			"key": "idUsuario_16",
+			"value": ""
+		},
+		{
+			"key": "token_16",
+			"value": ""
+		},
+		{
+			"key": "idUsuario_17",
+			"value": ""
+		},
+		{
+			"key": "token_17",
+			"value": ""
+		},
+		{
+			"key": "idUsuario_18",
+			"value": ""
+		},
+		{
+			"key": "token_18",
+			"value": ""
+		},
+		{
+			"key": "idUsuario_19",
+			"value": ""
+		},
+		{
+			"key": "token_19",
+			"value": ""
+		}
+	]
+}
